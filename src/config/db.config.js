@@ -1,4 +1,5 @@
 const Pool = require('pg').Pool;
+
 const config = {
   user: process.env.USER,
   host: process.env.HOST,
@@ -7,6 +8,6 @@ const config = {
   port: process.env.DB_PORT
 }
 
-const connect = new Pool(config);
+const connection = new Pool(config);
 
-module.exports = connect;
+module.exports = connection;
