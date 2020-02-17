@@ -9,7 +9,7 @@ const config = {
   port: process.env.DB_PORT
 }
 
-// remote dev
+// remote
 const remote_config = {
   user: process.env.REMOTE_USER,
   host: process.env.REMOTE_HOST,
@@ -17,9 +17,6 @@ const remote_config = {
   password: process.env.REMOTE_PASSWORD,
   port: process.env.REMOTE_DB_PORT
 }
-
-// production
-// (add here)
 
 let connection = undefined;
 

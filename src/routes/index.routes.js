@@ -1,3 +1,5 @@
+// Import all controllers here.
+
 const all_routes = (app, connection) => {
   app.get('/', (req, res) => {
     res.send('<h1>HEEEE HOOOO!</h1>')
