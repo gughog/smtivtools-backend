@@ -1,5 +1,6 @@
 const Pool = require('pg').Pool;
 
+// local development
 const config = {
   user: process.env.USER,
   host: process.env.HOST,
@@ -8,6 +9,24 @@ const config = {
   port: process.env.DB_PORT
 }
 
-const connection = new Pool(config);
+// remote dev
+const remote_config = {
+  user: process.env.REMOTE_USER,
+  host: process.env.REMOTE_HOST,
+  database: process.env.REMOTE_DATABASE,
+  password: process.env.REMOTE_PASSWORD,
+  port: process.env.REMOTE_DB_PORT
+}
+
+// production
+// (add here)
+
+let connection = undefined;
+
+if (process.env.ENVIRONMENT === 'REMOTE_DEV') {
+  connection = new Pool(remote_config);
+} else {
+  connection = new Pool(config);
+}
 
 module.exports = connection;
