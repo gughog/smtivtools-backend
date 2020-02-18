@@ -30,6 +30,7 @@ const DemonsModels = {
 
   async searchBy(req, res, connection) {
     const { name, level, race, resist, isweak, repeal, drain, isnull, ...unknown } = req.query;
+    const params = [ name, level, race, resist, isweak, repeal, drain, isnull ];
 
     try {
       // If some unknown queries is passed, returns an error
@@ -43,7 +44,9 @@ const DemonsModels = {
       }
       
       // Case queries are ok, then try to connect:
-      const results = await connection.query(get_all_demons);
+      const results = await connection.query(get_all_demons, `SELECT * demons WHERE ${fields.map((i, idx) => {
+        return `${i} = $${idx + 1}${idx+1 === fields.length ? '' : ' AND'}`
+      }).join(' ')}`);
 
     } catch (error) {
 
