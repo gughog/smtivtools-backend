@@ -6,7 +6,8 @@ const config = {
   host: process.env.HOST,
   database: process.env.DATABASE,
   password: process.env.PASSWORD,
-  port: process.env.DB_PORT
+  port: process.env.DB_PORT,
+  ssl: true
 }
 
 // remote
@@ -15,7 +16,8 @@ const remote_config = {
   host: process.env.REMOTE_HOST,
   database: process.env.REMOTE_DATABASE,
   password: process.env.REMOTE_PASSWORD,
-  port: process.env.REMOTE_DB_PORT
+  port: process.env.REMOTE_DB_PORT,
+  ssl: true
 }
 
 let connection = undefined;
