@@ -6,11 +6,11 @@ const allRoutes = (app, connection) => {
     res.send('<h1>HEEEE HOOOO!</h1>');
     console.log('(!) "Hee hoo" route was requested.');
   });
-  app.get('/demons', (req, res) => DemonsController.getAll(req, res, connection));
-  app.get('/demons/:id', (req, res) => DemonsController.getById(req, res, connection));
-  app.get('/skills' /* controller goes here */);
-  app.get('/apps' /* controller goes here */);
-  app.get('/specialfusions' /* controller goes here */);
+  app.get('/api/v1/demons', (req, res) => DemonsController.getAll(req, res, connection));
+  app.get('/api/v1/demons/:id', (req, res) => DemonsController.getById(req, res, connection));
+  app.get('/api/v1/skills' /* controller goes here */);
+  app.get('/api/v1/apps' /* controller goes here */);
+  app.get('/api/v1/specialfusions' /* controller goes here */);
 };
 
 module.exports = allRoutes;
