@@ -1,69 +1,86 @@
-const { queryGenerator } = require('../utils/index');
+// const { queryGenerator } = require('../utils');
 
-const { get_all_demons } = require('../queries/demons.queries');
+const { getAllDemons, getDemonById } = require('../queries/demons.queries');
 
 const DemonsController = {
   async getAll(req, res, connection) {
-    try {
-      const results = await connection.query(get_all_demons);
+    const {
+      name, level, race, resist, isweak, repeal, drain, isnull, ...unknown
+    } = req.query;
+    const unknownParams = Object.keys(unknown);
+    const params = [
+      { name }, { level }, { race }, { resist }, { isweak }, { repeal }, { drain }, { isnull },
+    ];
 
-      // If has results, return them;
+    try {
+      console.log(params);
+
+      if (unknownParams && unknownParams.length > 0) {
+        res.status(404).json({
+          status: 'not_found',
+          message: `The following request queries are unknown: ${unknownParams.join(', ')}.`,
+          records: 0,
+          error: true,
+        });
+
+        return;
+      }
+
+      // if () {
+      // TODO: filtering by req.query
+      // If has some req.query params to filter, search by them:
+
+      // } else {
+      // If no req.query was specified, get all
+      const results = await connection.query(getAllDemons);
       if (results) {
         res.status(200).json({
           status: 'success',
           message: null,
           records: results.rows.length,
-          data: results.rows
-        })
+          data: results.rows,
+        });
       }
-
+      // }
     } catch (error) {
       // If has errors, then return 500 (internal error code);
       res.status(500).json({
         status: 'error',
         message: error,
         records: 0,
-        error: true
+        error: true,
       });
-
     } finally {
+      // do somethign here later
     }
   },
 
-  // TODO:
-  // async searchBy(req, res, connection) {
-  //   const { name, level, race, resist, isweak, repeal, drain, isnull, ...unknown } = req.query;
-  //   const params = [ name, level, race, resist, isweak, repeal, drain, isnull ];
+  async getById(req, res, connection) {
+    const { id } = req.params;
 
-  //   try {
-  //     // If some unknown queries is passed, returns an error
-  //     if (unknown && unknown.length > 0) {
-  //       res.status(404).json({
-  //         status: 'not_found',
-  //         message: `The following request queries are unknown: ${unknown.join()}.`,
-  //         records: 0,
-  //         error: true
-  //       });
-  //     }
-      
-  //     // Case queries are ok, then try to connect:
-  //     const results = await connection.query(queryGenerator('demons', params));
+    try {
+      const results = await connection.query(getDemonById, [id]);
+      if (results) {
+        res.status(200).json({
+          status: 'success',
+          message: null,
+          records: results.rows.length,
+          data: results.rows,
+        });
+      }
+    } catch (error) {
+      // If has errors, then return 500 (internal error code);
+      res.status(500).json({
+        status: 'error',
+        message: error,
+        records: 0,
+        error: true,
+      });
+    } finally {
+      // do somethign here later
+    }
+  },
 
-  //     if (results) {
-  //       res.status(200).json({
-  //         status: 'success',
-  //         message: null,
-  //         records: results.rows.length,
-  //         data: results.rows
-  //       })
-  //     }
-  //   } catch (error) {
-
-  //   } finally {
-  //   }
-  // }
-
-  //TODO: getById () {}
 };
 
 module.exports = DemonsController;

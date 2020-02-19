@@ -1,31 +1,19 @@
-const Pool = require('pg').Pool;
+const { Pool } = require('pg');
+
+const { ENVIRONMENT } = process.env;
 
 // local development
 const config = {
-  user: process.env.USER,
-  host: process.env.HOST,
-  database: process.env.DATABASE,
-  password: process.env.PASSWORD,
-  port: process.env.DB_PORT,
-  ssl: true
-}
+  user: ENVIRONMENT === 'REMOTE_DEV' ? process.env.REMOTE_USER : process.env.USER,
+  host: ENVIRONMENT === 'REMOTE_DEV' ? process.env.REMOTE_HOST : process.env.HOST,
+  database: ENVIRONMENT === 'REMOTE_DEV' ? process.env.REMOTE_DATABASE : process.env.DATABASE,
+  password: ENVIRONMENT === 'REMOTE_DEV' ? process.env.REMOTE_PASSWORD : process.env.PASSWORD,
+  port: ENVIRONMENT === 'REMOTE_DEV' ? process.env.REMOTE_DB_PORT : process.env.DB_PORT,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+};
 
-// remote
-const remote_config = {
-  user: process.env.REMOTE_USER,
-  host: process.env.REMOTE_HOST,
-  database: process.env.REMOTE_DATABASE,
-  password: process.env.REMOTE_PASSWORD,
-  port: process.env.REMOTE_DB_PORT,
-  ssl: true
-}
-
-let connection = undefined;
-
-if (process.env.ENVIRONMENT === 'REMOTE_DEV') {
-  connection = new Pool(remote_config);
-} else {
-  connection = new Pool(config);
-}
+const connection = new Pool(config);
 
 module.exports = connection;
