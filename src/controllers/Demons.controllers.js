@@ -21,7 +21,7 @@ const DemonsController = {
     try {
       // If client send req.query unknown, respond with 404;
       if (unknownParams && unknownParams.length > 0) {
-        res.status(404).json({
+        res.status(400).json({
           status: 'not_found',
           message: `The following request queries are unknown: ${unknownParams.join(', ')}.`,
           records: 0,
