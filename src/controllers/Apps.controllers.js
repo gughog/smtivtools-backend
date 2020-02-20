@@ -100,7 +100,7 @@ const AppsController = {
 
   async getRandomApps(req, res, connection) {
     const { amount = 1, ...unknown } = req.query;
-    const haveUnknowQuery = !Object.keys(unknown).length === 0 && unknown.constructor === Object;
+    const haveUnknowQuery = Object.keys(unknown).length > 0;
 
     if (haveUnknowQuery) {
       res.status(400).json({

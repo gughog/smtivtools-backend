@@ -1,5 +1,5 @@
 const { queryGenerator } = require('../utils/index');
-const { getAllSkills, getSkillById } = require('../queries/skills.queries');
+const { getAllSkills, getSkillById, getRandomSkills } = require('../queries/skills.queries');
 
 const SkillsController = {
   async getAll(req, res, connection) {
@@ -96,6 +96,44 @@ const SkillsController = {
       });
     } finally {
       // do somethign here later
+    }
+  },
+
+  async getRandomSkills(req, res, connection) {
+    const { amount = 1, ...unknown } = req.query;
+    const haveUnknowQuery = Object.keys(unknown).length > 0;
+
+    console.log(Object.keys(unknown));
+
+    if (haveUnknowQuery) {
+      res.status(400).json({
+        status: 'query_error',
+        message: 'Please, specify only the amount of data you want.',
+        records: 0,
+        error: true,
+      });
+      return;
+    }
+
+    try {
+      const results = await connection.query(getRandomSkills, [amount]);
+      if (results) {
+        res.status(200).json({
+          status: 'success',
+          message: null,
+          records: results.rows.length,
+          data: results.rows,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        status: 'error',
+        message: error,
+        records: 0,
+        error: true,
+      });
+    } finally {
+      // do something here later
     }
   },
 };
