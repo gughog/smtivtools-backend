@@ -1,21 +1,21 @@
 const { queryGenerator } = require('../utils/index');
-const { getAllSkills, getSkillById } = require('../queries/skills.queries');
+const { getAllApps, getAppsById } = require('../queries/apps.queries');
 
-const SkillsController = {
+const AppsController = {
   async getAll(req, res, connection) {
     const {
       name,
-      mp,
-      type,
-      effect,
+      points,
+      requirements,
+      description,
       ...unknown
     } = req.query;
 
     // handle req.queries:
     const unknownParams = Object.keys(unknown);
-    const rawParams = [{ name }, { mp }, { type }, { effect }];
+    const rawParams = [{ name }, { points }, { requirements }, { description }];
     const params = rawParams.filter((item) => Object.values(item)[0] !== undefined);
-    const getAllByParams = await queryGenerator('skills', params);
+    const getAllByParams = await queryGenerator('apps', params);
 
     try {
       if (unknownParams && unknownParams.length > 0) {
@@ -27,7 +27,6 @@ const SkillsController = {
         });
         return;
       }
-
       if (params && params.length > 0) {
         const paramValues = params.map((param) => Object.values(param)[0]);
         const results = await connection.query(getAllByParams, paramValues);
@@ -50,7 +49,7 @@ const SkillsController = {
           return;
         }
       } else {
-        const results = await connection.query(getAllSkills);
+        const results = await connection.query(getAllApps);
 
         if (results) {
           res.status(200).json({
@@ -69,7 +68,7 @@ const SkillsController = {
         error: true,
       });
     } finally {
-      // do something here
+      // do something here later
     }
   },
 
@@ -77,7 +76,7 @@ const SkillsController = {
     const { id } = req.params;
 
     try {
-      const results = await connection.query(getSkillById, [id]);
+      const results = await connection.query(getAppsById, [id]);
       if (results) {
         res.status(200).json({
           status: 'success',
@@ -100,4 +99,4 @@ const SkillsController = {
   },
 };
 
-module.exports = SkillsController;
+module.exports = AppsController;
