@@ -1,4 +1,7 @@
-/** Select all in database*/
-exports.get_all_demons = "SELECT * FROM demons";
-/** Select all where query passed from user (like 'name') is something like a query passed from user ('like odin') */
-exports.get_demon_by_query = "SELECT * FROM demons WHERE $1 ILIKE '%' || $2 || '%'";
+/** Select all in database */
+exports.getAllDemons = 'SELECT * FROM demons';
+exports.getDemonById = 'SELECT * FROM demons WHERE id = $1';
+exports.getRandomDemon = 'SELECT * FROM demons ORDER BY random() LIMIT $1';
+
+// "ORDER BY random() LIMIT $1" may have some performance penalties on larger
+// tables, but all tables from this db isn't, so It may be ok.
