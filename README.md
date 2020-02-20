@@ -29,6 +29,6 @@ Route                       | Req. Queries                                      
 /api/v1/apps                | name, points, requirements, description                                                        |      -      | `Array` of `Objects`
 /api/v1/apps/:id            |                     -                                                                          | id          | `Array` of `Objects`
 /api/v1/randomapps          | amount                                                                                         |      -      | `Array` of `Objects`
-/api/v1/specialfusions      | demon_result, lvl, ingredient01, ingredient02, ingredient03, ingredient04, unlock_requirements |      -      | `Array` of `Objects`
+/api/v1/specialfusions      | name, lvl, ingredient01, ingredient02, ingredient03, ingredient04, unlock_requirements |      -      | `Array` of `Objects`
 /api/v1/specialfusions/:id  |                     -                                                                          | id          | `Array` of `Objects`
 /api/v1/randomspecialfusion | amount                                                                                         |      -      | `Array` of `Objects`

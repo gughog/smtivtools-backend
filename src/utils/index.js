@@ -14,7 +14,6 @@ const dataWrapper = (element, index) => {
 
   // If elementValueCopy IS a number returns a normal WHERE:
   if (!Number.isNaN(Number(elementValueCopy))) {
-    console.log(elementValueCopy, 'IS A NUMBER VALUE');
     return `${elementCopy} = $${index + 1}`;
   }
 
@@ -53,8 +52,8 @@ exports.queryGenerator = async (table, fields) => {
   if (fieldsCopy && fieldsCopy.length < 1) {
     result = [];
   } else {
-    result = `SELECT * from ${table} WHERE ${fieldsCopy.map((i, idx) => `${dataWrapper(i, idx)}${idx + 1 === fieldsCopy.length ? ';' : ' AND'}`).join(' ')}`;
+    result = `SELECT * from ${table} WHERE ${fieldsCopy.map((i, idx) => `${dataWrapper(i, idx)}${idx + 1 === fieldsCopy.length ? ' ORDER BY name;' : ' AND'}`).join(' ')}`;
   }
-
+  console.log(result);
   return result;
 };

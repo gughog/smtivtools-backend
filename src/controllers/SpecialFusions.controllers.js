@@ -5,7 +5,7 @@ const SpecialFusionController = {
   async getAll(req, res, connection) {
     const {
       // eslint-disable-next-line
-      demon_result,
+      name,
       lvl,
       ingredient01,
       ingredient02,
@@ -19,7 +19,7 @@ const SpecialFusionController = {
     // handle req.queries:
     const unknownParams = Object.keys(unknown);
     const rawParams = [
-      { demon_result },
+      { name },
       { lvl },
       { ingredient01 },
       { ingredient02 },
