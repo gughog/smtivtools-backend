@@ -15,6 +15,7 @@ const allRoutes = (app, connection) => {
   app.get('/api/v1/skills/:id', (req, res) => SkillsController.getById(req, res, connection));
   app.get('/api/v1/apps', (req, res) => AppsController.getAll(req, res, connection));
   app.get('/api/v1/apps/:id', (req, res) => AppsController.getById(req, res, connection));
+  app.get('/api/v1/randomapps', (req, res) => AppsController.getRandomApps(req, res, connection));
   app.get('/api/v1/specialfusions', (req, res) => SpecialFusionsController.getAll(req, res, connection));
   app.get('/api/v1/specialfusions/:id', (req, res) => SpecialFusionsController.getById(req, res, connection));
 };

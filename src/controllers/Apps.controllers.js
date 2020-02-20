@@ -1,5 +1,5 @@
 const { queryGenerator } = require('../utils/index');
-const { getAllApps, getAppsById } = require('../queries/apps.queries');
+const { getAllApps, getAppsById, getRandomApps } = require('../queries/apps.queries');
 
 const AppsController = {
   async getAll(req, res, connection) {
@@ -95,6 +95,42 @@ const AppsController = {
       });
     } finally {
       // do somethign here later
+    }
+  },
+
+  async getRandomApps(req, res, connection) {
+    const { amount = 1, ...unknown } = req.query;
+    const haveUnknowQuery = !Object.keys(unknown).length === 0 && unknown.constructor === Object;
+
+    if (haveUnknowQuery) {
+      res.status(400).json({
+        status: 'query_error',
+        message: 'Please, specify only the amount of data you want.',
+        records: 0,
+        error: true,
+      });
+      return;
+    }
+
+    try {
+      const results = await connection.query(getRandomApps, [amount]);
+      if (results) {
+        res.status(200).json({
+          status: 'success',
+          message: null,
+          records: results.rows.length,
+          data: results.rows,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        status: 'error',
+        message: error,
+        records: 0,
+        error: true,
+      });
+    } finally {
+      // do something here later
     }
   },
 };
