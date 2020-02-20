@@ -19,6 +19,7 @@ const allRoutes = (app, connection) => {
   app.get('/api/v1/randomapps', (req, res) => AppsController.getRandomApps(req, res, connection));
   app.get('/api/v1/specialfusions', (req, res) => SpecialFusionsController.getAll(req, res, connection));
   app.get('/api/v1/specialfusions/:id', (req, res) => SpecialFusionsController.getById(req, res, connection));
+  app.get('/api/v1/randomspecialfusion', (req, res) => SpecialFusionsController.getRandomSpecialFusion(req, res, connection));
 };
 
 module.exports = allRoutes;

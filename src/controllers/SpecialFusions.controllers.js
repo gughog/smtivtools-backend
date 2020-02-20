@@ -1,5 +1,5 @@
 const { queryGenerator } = require('../utils/index');
-const { getAllSpecialFusions, getSpecialFusionById } = require('../queries/special_fusions.queries');
+const { getAllSpecialFusions, getSpecialFusionById, getRandomSpecialFusions } = require('../queries/special_fusions.queries');
 
 const SpecialFusionController = {
   async getAll(req, res, connection) {
@@ -109,6 +109,44 @@ const SpecialFusionController = {
       });
     } finally {
       // do somethign here later
+    }
+  },
+
+  async getRandomSpecialFusion(req, res, connection) {
+    const { amount = 1, ...unknown } = req.query;
+    const haveUnknowQuery = Object.keys(unknown).length > 0;
+
+    console.log(Object.keys(unknown));
+
+    if (haveUnknowQuery) {
+      res.status(400).json({
+        status: 'query_error',
+        message: 'Please, specify only the amount of data you want.',
+        records: 0,
+        error: true,
+      });
+      return;
+    }
+
+    try {
+      const results = await connection.query(getRandomSpecialFusions, [amount]);
+      if (results) {
+        res.status(200).json({
+          status: 'success',
+          message: null,
+          records: results.rows.length,
+          data: results.rows,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        status: 'error',
+        message: error,
+        records: 0,
+        error: true,
+      });
+    } finally {
+      // do something here later
     }
   },
 };
