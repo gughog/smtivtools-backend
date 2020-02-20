@@ -11,6 +11,7 @@ const allRoutes = (app, connection) => {
   });
   app.get('/api/v1/demons', (req, res) => DemonsController.getAll(req, res, connection));
   app.get('/api/v1/demons/:id', (req, res) => DemonsController.getById(req, res, connection));
+  app.get('/api/v1/randomdemon', (req, res) => DemonsController.getRandomDemon(req, res, connection));
   app.get('/api/v1/skills', (req, res) => SkillsController.getAll(req, res, connection));
   app.get('/api/v1/skills/:id', (req, res) => SkillsController.getById(req, res, connection));
   app.get('/api/v1/randomskills', (req, res) => SkillsController.getRandomSkills(req, res, connection));

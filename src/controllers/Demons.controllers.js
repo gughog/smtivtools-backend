@@ -1,5 +1,5 @@
 const { queryGenerator } = require('../utils');
-const { getAllDemons, getDemonById } = require('../queries/demons.queries');
+const { getAllDemons, getDemonById, getRandomDemon } = require('../queries/demons.queries');
 
 const DemonsController = {
   async getAll(req, res, connection) {
@@ -99,6 +99,42 @@ const DemonsController = {
       });
     } finally {
       // do somethign here later
+    }
+  },
+
+  async getRandomDemon(req, res, connection) {
+    const { amount = 1, ...unknown } = req.query;
+    const haveUnknowQuery = Object.keys(unknown).length > 0;
+
+    if (haveUnknowQuery) {
+      res.status(400).json({
+        status: 'query_error',
+        message: 'Please, specify only the amount of data you want.',
+        records: 0,
+        error: true,
+      });
+      return;
+    }
+
+    try {
+      const results = await connection.query(getRandomDemon, [amount]);
+      if (results) {
+        res.status(200).json({
+          status: 'success',
+          message: null,
+          records: results.rows.length,
+          data: results.rows,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        status: 'error',
+        message: error,
+        records: 0,
+        error: true,
+      });
+    } finally {
+      // do something here later
     }
   },
 };
