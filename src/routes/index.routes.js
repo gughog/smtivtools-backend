@@ -2,6 +2,7 @@
 const DemonsController = require('../controllers/Demons.controllers');
 const SkillsController = require('../controllers/Skills.controllers');
 const AppsController = require('../controllers/Apps.controllers');
+const SpecialFusionsController = require('../controllers/SpecialFusions.controllers');
 
 const allRoutes = (app, connection) => {
   app.get('/', (req, res) => {
@@ -14,7 +15,8 @@ const allRoutes = (app, connection) => {
   app.get('/api/v1/skills/:id', (req, res) => SkillsController.getById(req, res, connection));
   app.get('/api/v1/apps', (req, res) => AppsController.getAll(req, res, connection));
   app.get('/api/v1/apps/:id', (req, res) => AppsController.getById(req, res, connection));
-  app.get('/api/v1/specialfusions' /* controller goes here */);
+  app.get('/api/v1/specialfusions', (req, res) => SpecialFusionsController.getAll(req, res, connection));
+  app.get('/api/v1/specialfusions/:id', (req, res) => SpecialFusionsController.getById(req, res, connection));
 };
 
 module.exports = allRoutes;
